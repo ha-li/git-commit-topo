@@ -42,8 +42,10 @@ public class StreamCommitReader extends BaseRichSpout {
         try {
             while ((line = this.fileReader.readLine()) != null) {
                 //System.out.println(line);
+
                 this.collector.emit(new Values(line));
             }
+            //System.out.flush();
         } catch (Exception e) {
             e.printStackTrace();
         }
