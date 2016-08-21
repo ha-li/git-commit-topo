@@ -4,6 +4,7 @@ import backtype.storm.Config;
 import backtype.storm.LocalCluster;
 import backtype.storm.generated.StormTopology;
 import backtype.storm.topology.TopologyBuilder;
+import com.gecko.topology.commit.bolt.EmailCounter;
 import com.gecko.topology.commit.spout.StreamCommitReader;
 
 import java.util.HashMap;
@@ -26,6 +27,7 @@ public class GitCommitTopology {
 
         TopologyBuilder builder = new TopologyBuilder();
         builder.setSpout("commits-reader", new StreamCommitReader());
+        builder.setBolt("commit-counter", new EmailCounter()).shuffleGrouping("commits-reader");
         // define the topology here
 
         StormTopology topology = builder.createTopology();
